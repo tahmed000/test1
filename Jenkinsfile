@@ -1,6 +1,6 @@
 pipeline {
   agent any
-  tools { nodejs 'NodeJS_18' }
+  tools { nodejs 'NodeJS 25.1.0' }
   environment {
     ALLURE_RESULTS = 'allure-results'
     ALLURE_REPORT = 'allure-report'
