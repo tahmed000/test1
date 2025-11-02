@@ -13,7 +13,7 @@ pipeline {
         bat 'npx playwright install --with-deps'
       }
     }
-    stage('Test') { steps { bat 'npx playwright test' } }
+  stage('Test') { steps { bat 'npx playwright test --workers=4' } }
     stage('Restore History') {
       steps { bat 'if exist %HISTORY_DIR% xcopy /E /I /Y %HISTORY_DIR% %ALLURE_RESULTS%/history' }
     }
