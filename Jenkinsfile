@@ -28,9 +28,18 @@ pipeline {
   post {
     always {
       junit '**/allure-results/*.xml'
-      mail to: 'your-team@example.com',
-           subject: "Playwright Test Results: ${currentBuild.fullDisplayName}",
-           body: "Test run complete. View the Allure report at ${env.BUILD_URL}allure/\nSummary: ${currentBuild.currentResult}"
+      emailext (
+        to: 'your-team@example.com',
+        subject: "Playwright Test Results: ${currentBuild.fullDisplayName}",
+        body: """
+          <b>Playwright Test Results</b><br>
+          <b>Job:</b> ${env.JOB_NAME} #${env.BUILD_NUMBER}<br>
+          <b>Status:</b> ${currentBuild.currentResult}<br>
+          <b>Allure Report:</b> <a href='${env.BUILD_URL}allure/'>View Report</a><br>
+          <b>Console Output:</b> <a href='${env.BUILD_URL}console'>View Console</a><br>
+        """,
+        mimeType: 'text/html'
+      )
     }
   }
 }
