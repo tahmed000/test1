@@ -29,7 +29,7 @@ pipeline {
     always {
       junit '**/allure-results/*.xml'
       emailext (
-        to: 'your-team@example.com',
+        to: 'tahmed000@gmail.com',
         subject: "Playwright Test Results: ${currentBuild.fullDisplayName}",
         body: """
           <b>Playwright Test Results</b><br>
