@@ -7,7 +7,12 @@ pipeline {
     HISTORY_DIR = 'allure-history'
   }
   stages {
-    stage('Install') { steps { bat 'npm ci' } }
+    stage('Install') {
+      steps {
+        bat 'npm ci'
+        bat 'npx playwright install --with-deps'
+      }
+    }
     stage('Test') { steps { bat 'npx playwright test' } }
     stage('Restore History') {
       steps { bat 'if exist %HISTORY_DIR% xcopy /E /I /Y %HISTORY_DIR% %ALLURE_RESULTS%/history' }
@@ -15,7 +20,7 @@ pipeline {
     stage('Allure Report') {
       steps {
         bat 'npx allure generate %ALLURE_RESULTS% --clean -o %ALLURE_REPORT%'
-        bat 'if exist %ALLURE_REPORT%/history xcopy /E /I /Y %ALLURE_REPORT%/history %HISTORY_DIR%' 
+        bat 'if exist %ALLURE_REPORT%/history xcopy /E /I /Y %ALLURE_REPORT%/history %HISTORY_DIR%'
         archiveArtifacts artifacts: '%ALLURE_REPORT%/**', fingerprint: true
       }
     }
